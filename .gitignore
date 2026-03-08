@@ -1,0 +1,5 @@
+flaskenv/
+logs/
+static/*.png
+uploads/
+__pycache__/
