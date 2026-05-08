@@ -196,7 +196,7 @@ HTML = '''
                                     </form>
 
                                     <svg fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M7,10A4,4,0,1,0,3,6,4,4,0,0,0,7,10ZM7,4A2,2,0,1,1,5,6,2,2,0,0,1,7,4ZM2,22H22a1,1,0,0,0,.949-1.316l-4-12a1,1,0,0,0-1.708-.335l-5.39,6.289L8.6,12.2a1,1,0,0,0-1.4.2l-6,8A1,1,0,0,0,2,22Zm6.2-7.6,3.2,2.4a1,1,0,0,0,1.359-.149l4.851-5.659,3,9.008H4Z"></path></g></svg>
-                                    <span>{{file}}</span>
+                                    <span>{{file|truncate(25, True, '...')}}</span>
                                 </a>
 
                             {% elif file.endswith(('.mp4', '.mkv')) %}
@@ -211,7 +211,7 @@ HTML = '''
                                     </form>
 
                                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M8 10.4656V13.5344C8 15.6412 10.2299 16.4543 11.6609 15.7205L14.6534 14.1861C16.4489 13.2655 16.4488 10.7345 14.6534 9.81391L11.6609 8.27949C10.2299 7.54573 8 8.3588 8 10.4656ZM10 13.5344C10 13.8889 10.4126 14.113 10.7484 13.9408L13.7409 12.4064C14.0864 12.2293 14.0864 11.7707 13.7409 11.5936L10.7484 10.0592C10.4126 9.88702 10 10.1111 10 10.4656V13.5344Z" fill="#000000"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M7 2C4.23858 2 2 4.23858 2 7V17C2 19.7614 4.23858 22 7 22H17C19.7614 22 22 19.7614 22 17V7C22 4.23858 19.7614 2 17 2H7ZM4 7C4 5.34315 5.34315 4 7 4H17C18.6569 4 20 5.34315 20 7V17C20 18.6569 18.6569 20 17 20H7C5.34315 20 4 18.6569 4 17V7Z" fill="#000000"></path> </g></svg>
-                                    <span>{{file}}</span>
+                                    <span>{{file|truncate(25, True, '...')}}</span>
                                 </a>
                             {% endif %}
                         </div>
