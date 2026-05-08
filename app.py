@@ -185,7 +185,7 @@ HTML = '''
                         <div class="media_item" style="position: relative;">
                             {% if file.endswith(('.png', '.jpg', '.jpeg', '.gif', '.ico')) %}
 
-                                <a style="position: relative;" class='dir-option' href="{{ url_for('uploaded_file', filename=(path ~ '/' if path else '') ~ file) }}">
+                                <a style="position: relative;" class='media-option' href="{{ url_for('uploaded_file', filename=(path ~ '/' if path else '') ~ file) }}">
                                     
                                     <form action="{{ url_for('delete_file', file_path=path + '/' + file if path else file) }}"
                                         method="post"
@@ -200,7 +200,7 @@ HTML = '''
                                 </a>
 
                             {% elif file.endswith(('.mp4', '.mkv')) %}
-                                <a style="position: relative;" class='dir-option' href="{{ url_for('uploaded_file', filename=(path ~ '/' if path else '') ~ file) }}">
+                                <a style="position: relative;" class='media-option' href="{{ url_for('uploaded_file', filename=(path ~ '/' if path else '') ~ file) }}">
                                     
                                     <form action="{{ url_for('delete_file', file_path=path + '/' + file if path else file) }}"
                                         method="post"
