@@ -184,18 +184,20 @@ HTML = '''
                     {% for file in files %}
                         <div class="media_item" style="position: relative;">
                             {% if file.endswith(('.png', '.jpg', '.jpeg', '.gif')) %}
-                                <a href="{{ url_for('uploaded_file', filename=(path ~ '/' if path else '') ~ file) }}" style="display: flex; flex-direction: row; text-decoration: none; border: solid 0.5px black;">
-                                    <div style="display: flex; justify-content: center; align-items: center;">
-                                        <svg fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M7,10A4,4,0,1,0,3,6,4,4,0,0,0,7,10ZM7,4A2,2,0,1,1,5,6,2,2,0,0,1,7,4ZM2,22H22a1,1,0,0,0,.949-1.316l-4-12a1,1,0,0,0-1.708-.335l-5.39,6.289L8.6,12.2a1,1,0,0,0-1.4.2l-6,8A1,1,0,0,0,2,22Zm6.2-7.6,3.2,2.4a1,1,0,0,0,1.359-.149l4.851-5.659,3,9.008H4Z"></path></g></svg>
-                                    </div>
-                                    <p class="media_item_title">{{ file }}</p>
-                                    <form action="{{ url_for('delete_file', file_path=path + '/' + file if path else file) }}" method="post" style="position: absolute; top: 5px; right: 5px;">
+
+                                <a style="position: relative;" class='dir-option' href="{{ url_for('uploaded_file', filename=(path ~ '/' if path else '') ~ file) }}">
+                                    
+                                    <form action="{{ url_for('delete_file', file_path=path + '/' + file if path else file) }}"
+                                        method="post"
+                                        style="position: absolute; top: 50%; right: 5px; transform: translateY(-50%);">
                                         <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?')" style="background: transparent; border: none; cursor: pointer;">
-                                            🗑️
+                                            ❌
                                         </button>
                                     </form>
+
+                                    <svg fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M7,10A4,4,0,1,0,3,6,4,4,0,0,0,7,10ZM7,4A2,2,0,1,1,5,6,2,2,0,0,1,7,4ZM2,22H22a1,1,0,0,0,.949-1.316l-4-12a1,1,0,0,0-1.708-.335l-5.39,6.289L8.6,12.2a1,1,0,0,0-1.4.2l-6,8A1,1,0,0,0,2,22Zm6.2-7.6,3.2,2.4a1,1,0,0,0,1.359-.149l4.851-5.659,3,9.008H4Z"></path></g></svg>
+                                    <span>{{file}}</span>
                                 </a>
-                                
 
                             {% elif file.endswith(('.mp4', '.mkv')) %}
                                 <div class="thumbnail-container" style="position: relative;">
