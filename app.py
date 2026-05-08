@@ -183,7 +183,7 @@ HTML = '''
                 <div class='media-files'>
                     {% for file in files %}
                         <div class="media_item" style="position: relative;">
-                            {% if file.endswith(('.png', '.jpg', '.jpeg', '.gif')) %}
+                            {% if file.endswith(('.png', '.jpg', '.jpeg', '.gif', '.ico')) %}
 
                                 <a style="position: relative;" class='dir-option' href="{{ url_for('uploaded_file', filename=(path ~ '/' if path else '') ~ file) }}">
                                     
@@ -195,7 +195,7 @@ HTML = '''
                                         </button>
                                     </form>
 
-                                    <svg fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M7,10A4,4,0,1,0,3,6,4,4,0,0,0,7,10ZM7,4A2,2,0,1,1,5,6,2,2,0,0,1,7,4ZM2,22H22a1,1,0,0,0,.949-1.316l-4-12a1,1,0,0,0-1.708-.335l-5.39,6.289L8.6,12.2a1,1,0,0,0-1.4.2l-6,8A1,1,0,0,0,2,22Zm6.2-7.6,3.2,2.4a1,1,0,0,0,1.359-.149l4.851-5.659,3,9.008H4Z"></path></g></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M3.17157 3.17157C2 4.34314 2 6.22876 2 9.99999V14C2 17.7712 2 19.6568 3.17157 20.8284C4.34315 22 6.22876 22 10 22H14C17.7712 22 19.6569 22 20.8284 20.8284C22 19.6569 22 17.7712 22 14V14V9.99999C22 7.16065 22 5.39017 21.5 4.18855V17C20.5396 17 19.6185 16.6185 18.9393 15.9393L18.1877 15.1877C17.4664 14.4664 17.1057 14.1057 16.6968 13.9537C16.2473 13.7867 15.7527 13.7867 15.3032 13.9537C14.8943 14.1057 14.5336 14.4664 13.8123 15.1877L13.6992 15.3008C13.1138 15.8862 12.8212 16.1788 12.5102 16.2334C12.2685 16.2758 12.0197 16.2279 11.811 16.0988C11.5425 15.9326 11.3795 15.5522 11.0534 14.7913L11 14.6667C10.2504 12.9175 9.87554 12.0429 9.22167 11.7151C8.89249 11.5501 8.52413 11.4792 8.1572 11.5101C7.42836 11.5716 6.75554 12.2445 5.40989 13.5901L3.5 15.5V2.88739C3.3844 2.97349 3.27519 3.06795 3.17157 3.17157Z" fill="#222222"></path> <path d="M3 10C3 8.08611 3.00212 6.75129 3.13753 5.74416C3.26907 4.76579 3.50966 4.2477 3.87868 3.87868C4.2477 3.50966 4.76579 3.26907 5.74416 3.13753C6.75129 3.00212 8.08611 3 10 3H14C15.9139 3 17.2487 3.00212 18.2558 3.13753C19.2342 3.26907 19.7523 3.50966 20.1213 3.87868C20.4903 4.2477 20.7309 4.76579 20.8625 5.74416C20.9979 6.75129 21 8.08611 21 10V14C21 15.9139 20.9979 17.2487 20.8625 18.2558C20.7309 19.2342 20.4903 19.7523 20.1213 20.1213C19.7523 20.4903 19.2342 20.7309 18.2558 20.8625C17.2487 20.9979 15.9139 21 14 21H10C8.08611 21 6.75129 20.9979 5.74416 20.8625C4.76579 20.7309 4.2477 20.4903 3.87868 20.1213C3.50966 19.7523 3.26907 19.2342 3.13753 18.2558C3.00212 17.2487 3 15.9139 3 14V10Z" stroke="#222222" stroke-width="2"></path> <circle cx="15" cy="9" r="2" fill="#222222"></circle> </g></svg>
                                     <span>{{file|truncate(25, True, '...')}}</span>
                                 </a>
 
@@ -218,11 +218,6 @@ HTML = '''
                     {% endfor %}
                 </div>
             </div>
-            <div>
-                <p>CPU: <span id="cpu"></span>%</p>
-                <p>RAM: <span id="ram"></span>%</p>
-                <p>Load Average: <span id="load"></span></p>
-            </div>
 
             <script>
                 async function updateStatus() {
@@ -243,16 +238,6 @@ HTML = '''
 </html>
 '''
 
-def burn_cpu(seconds):
-    end = time.time() + seconds
-    while time.time() < end:
-        pass  # bucle vacío
-
-@app.route("/stress/<int:seconds>")
-def stress(seconds):
-    t = threading.Thread(target=burn_cpu, args=(seconds,))
-    t.start()
-    return jsonify({"status": "running", "seconds": seconds})
 
 @app.route('/disk-raw')
 def disk_raw():
@@ -262,33 +247,6 @@ def disk_raw():
         return content, 200, {'Content-Type': 'text/plain; charset=utf-8'}
     except FileNotFoundError:
         return "metrics_disk.csv not found", 404
-
-@app.route('/metrics-raw')
-def metrics_raw():
-    try:
-        with open('../metrics.csv', 'r', encoding='utf-8') as f:
-            content = f.read()
-        return content, 200, {'Content-Type': 'text/plain; charset=utf-8'}
-    except FileNotFoundError:
-        return "metrics.csv not found", 404
-
-@app.route('/latency-raw')
-def latency_raw():
-    try:
-        with open('../latency.csv', 'r', encoding='utf-8') as f:
-            content = f.read()
-        return content, 200, {'Content-Type': 'text/plain; charset=utf-8'}
-    except FileNotFoundError:
-        return "latency.csv not found", 404
-
-@app.route('/tx-rx-raw')
-def tx_rx_raw():
-    try:
-        with open('../tx_rx.csv', 'r', encoding='utf-8') as f:
-            content = f.read()
-        return content, 200, {'Content-Type': 'text/plain; charset=utf-8'}
-    except FileNotFoundError:
-        return "tx_rx.csv not found", 404
 
 
 def allowed_file(filename):
@@ -397,14 +355,6 @@ def delete_file(file_path):
         except Exception as e:
             logging.error(f"Error eliminando {full_path}: {e}")
     return redirect(request.referrer or url_for('upload_file'))
-
-@app.get("/status")
-def status():
-    return jsonify({
-        "cpu": psutil.cpu_percent(),
-        "ram": psutil.virtual_memory().percent,
-        "load": psutil.getloadavg()
-    })
 
 
 
