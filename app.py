@@ -200,26 +200,19 @@ HTML = '''
                                 </a>
 
                             {% elif file.endswith(('.mp4', '.mkv')) %}
-                                <div class="thumbnail-container" style="position: relative;">
+                                <a style="position: relative;" class='dir-option' href="{{ url_for('uploaded_file', filename=(path ~ '/' if path else '') ~ file) }}">
                                     
-                                    <form action="{{ url_for('delete_file', file_path=path + '/' + file if path else file) }}" method="post"
-                                        style="position: absolute; top: 5px; right: 5px;">
-                                        <button type="submit"
-                                                onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?')"
-                                                style="background: transparent; border: none; cursor: pointer;">
-                                            🗑️
+                                    <form action="{{ url_for('delete_file', file_path=path + '/' + file if path else file) }}"
+                                        method="post"
+                                        style="position: absolute; top: 50%; right: 5px; transform: translateY(-50%);">
+                                        <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?')" style="background: transparent; border: none; cursor: pointer;">
+                                            ❌
                                         </button>
                                     </form>
-                                    
-                                    <a href="{{ url_for('uploaded_file', filename=(path ~ '/' if path else '') ~ file) }}">
-                                        <img src="{{ url_for('uploaded_file', filename=(path ~ '/' if path else '') ~ file.rsplit('.', 1)[0] ~ '.jpg') }}"
-                                            style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px;"
-                                            alt="video thumbnail" class="thumbnail-img">
-                                        <div class="play-icon" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                                            font-size: 36px; color: white; text-shadow: 0px 0px 5px black;">&#9658;</div>
-                                    </a>
-                                </div>
-                                <p class="media_item_title">{{ file }}</p>
+
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M8 10.4656V13.5344C8 15.6412 10.2299 16.4543 11.6609 15.7205L14.6534 14.1861C16.4489 13.2655 16.4488 10.7345 14.6534 9.81391L11.6609 8.27949C10.2299 7.54573 8 8.3588 8 10.4656ZM10 13.5344C10 13.8889 10.4126 14.113 10.7484 13.9408L13.7409 12.4064C14.0864 12.2293 14.0864 11.7707 13.7409 11.5936L10.7484 10.0592C10.4126 9.88702 10 10.1111 10 10.4656V13.5344Z" fill="#000000"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M7 2C4.23858 2 2 4.23858 2 7V17C2 19.7614 4.23858 22 7 22H17C19.7614 22 22 19.7614 22 17V7C22 4.23858 19.7614 2 17 2H7ZM4 7C4 5.34315 5.34315 4 7 4H17C18.6569 4 20 5.34315 20 7V17C20 18.6569 18.6569 20 17 20H7C5.34315 20 4 18.6569 4 17V7Z" fill="#000000"></path> </g></svg>
+                                    <span>{{file}}</span>
+                                </a>
                             {% endif %}
                         </div>
                     {% endfor %}
